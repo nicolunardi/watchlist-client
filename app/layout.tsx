@@ -1,3 +1,5 @@
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
 import "./globals.css";
 
 export default function RootLayout({
@@ -8,7 +10,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body>{children}</body>
+      <body className="h-screen">
+        <div className="flex h-full">
+          <Sidebar />
+          <main className="flex flex-1 flex-col h-full">
+            <Topbar />
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }
