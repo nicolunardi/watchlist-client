@@ -1,6 +1,12 @@
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import Topbar from "@/components/Topbar";
 import "./globals.css";
+import { Poppins } from "@next/font/google";
+
+const poppins = Poppins({
+  weight: ["100", "300", "400", "700"],
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
@@ -10,12 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className="h-screen">
+      <body className={`h-screen ${poppins.className}`}>
         <div className="flex h-full">
           <Sidebar />
-          <main className="flex flex-1 flex-col h-full">
+          <main className="flex flex-1 flex-col h-full bg-primary-500 text-primary-100">
             <Topbar />
-            {children}
+            <div className="flex-1 bg-blueAccent-800">{children}</div>
           </main>
         </div>
       </body>
