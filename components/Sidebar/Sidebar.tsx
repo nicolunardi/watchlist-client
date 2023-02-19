@@ -67,7 +67,9 @@ export default function Sidebar() {
       } bg-primary-400 text-primary-100`}
     >
       <div
-        className="flex justify-end hover:text-primary-200 transition ease-in-out duration-200 cursor-pointer"
+        className={`flex ${
+          isOpen ? "justify-end" : "justify-center"
+        } hover:text-primary-200 transition ease-in-out duration-200 cursor-pointer`}
         onClick={(e) => setIsOpen((curr) => !curr)}
       >
         <Bars3Icon className="h-8 w-8" />
