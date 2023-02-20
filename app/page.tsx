@@ -2,7 +2,7 @@ import TopPlayersTable from "@/components/Dashboard/TopPlayersTable";
 import { getPlayers } from "@/utils/fpl/api";
 
 export default async function Home() {
-  const player = getPlayers();
+  const players = await getPlayers();
   return (
     <div className="h-full">
       <h1 className="text-3xl">Dashboard</h1>
@@ -12,7 +12,7 @@ export default async function Home() {
         <div>
           <h2 className="text-greenAccent-500 text-l">Metrics</h2>
           <div>
-            <TopPlayersTable />
+            <TopPlayersTable players={players} />
           </div>
         </div>
         {/* mylist preview */}
