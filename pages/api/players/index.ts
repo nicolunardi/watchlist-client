@@ -1,5 +1,5 @@
-import { Player } from "fpl-ts";
-import { PlayerDelegate } from "fpl-ts/lib/types";
+import { Player } from "@/types/fpl/interface";
+import { API_BASE_URL, API_URLS } from "@/utils/fpl/urls";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,10 +7,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const player = new Player([]);
-    const details: PlayerDelegate[] = await player.getDetails();
+    const data = await (
+      await fetch(`${API_BASE_URL + API_URLS["STATIC"]}`)
+    ).json();
 
-    res.status(200).json({ details });
+    const players: Player[] = data.elements;
+    res.status(200).json({ players });
   } catch (error) {
     throw new Error();
   }

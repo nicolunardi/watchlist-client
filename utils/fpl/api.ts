@@ -1,9 +1,9 @@
-import { Player } from "fpl-ts";
+import { Player } from "@/types/fpl/interface";
 
-export const getPlayers = async () => {
-  const player = await fetch(`${process.env.HOSTNAME}/api/players`, {
+export const getPlayers = async (): Promise<Player[]> => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/players`, {
     method: "GET",
   });
-  const { details: data } = await player.json();
-  return data;
+  const { players } = await data.json();
+  return players;
 };
