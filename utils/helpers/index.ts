@@ -17,6 +17,7 @@ export const sortColumns = (column: string, data: Player[]) => {
 
     return dataA - dataB;
   };
-
+  console.log(data[0]);
   data.sort(compare);
+  console.log(data[0]);
 };
