@@ -1,10 +1,13 @@
 "use client";
-import { MouseEvent } from "react";
+import { Fragment, MouseEvent } from "react";
 
 import { DEFAULT_COLUMNS } from "@/config/fpl/config";
 import { Player } from "@/types/fpl/interface";
-import { sortColumns } from "@/utils/helpers";
 import { useState } from "react";
+import {
+  ArrowSmallDownIcon,
+  ArrowSmallUpIcon,
+} from "@heroicons/react/24/outline";
 
 import {
   createColumnHelper,
@@ -44,6 +47,9 @@ function TopPlayersTable({ players }: Props) {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: { pageSize: 50 },
+    },
   });
 
   const addColumn = (e: MouseEvent) => {
@@ -55,54 +61,61 @@ function TopPlayersTable({ players }: Props) {
   };
 
   return (
-    <div className="w-[95%] m-auto h-96 rounded-lg">
-      <table className="table-auto w-full h-80 text-left">
-        <thead className="h-10 bg-primary-500">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th className="px-3" key={header.id}>
-                  {header.isPlaceholder ? null : (
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? "cursor-pointer select-none"
-                          : "",
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {{
-                        asc: " 🔼",
-                        desc: " 🔽",
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              className="even:bg-primary-500 odd:bg-primary-400 hover:bg-blueAccent-700"
-              key={row.id}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td className="px-3" key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <>
+      <div className="w-[95%] m-auto h-96 rounded-lg overflow-auto">
+        <table className="table-auto  w-full text-left relative">
+          <thead className="h-10 bg-primary-500">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className={`px-3 sticky top-0 bg-primary-500  ${
+                      header.column.getIsSorted() ? "text-greenAccent-500" : ""
+                    }`}
+                    key={header.id}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none flex items-center gap-2"
+                            : "flex items-center gap-2",
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: <ArrowSmallUpIcon className="w-4 h-4" />,
+                          desc: <ArrowSmallDownIcon className="w-4 h-4" />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                className="even:bg-primary-500 odd:bg-primary-400 hover:bg-blueAccent-700"
+                key={row.id}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td className="px-3" key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {/* The pagination buttons */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 mt-6 w-80 mx-auto">
         <button
           className="border rounded p-1"
           onClick={() => table.setPageIndex(0)}
@@ -111,14 +124,14 @@ function TopPlayersTable({ players }: Props) {
           First
         </button>
         <button
-          className="border rounded p-1"
+          className="border rounded p-1 w-9"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           {"<"}
         </button>
         <button
-          className="border rounded p-1"
+          className="border rounded p-1 w-9"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
@@ -131,7 +144,7 @@ function TopPlayersTable({ players }: Props) {
         >
           Last
         </button>
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1 mx-2">
           <div>Page</div>
           <strong>
             {table.getState().pagination.pageIndex + 1} of{" "}
@@ -139,8 +152,13 @@ function TopPlayersTable({ players }: Props) {
           </strong>
         </span>
       </div>
-      <button onClick={(e) => addColumn(e)}>help</button>
-    </div>
+      <button
+        className="border rounded p-2 hover:text-greenAccent-500"
+        onClick={(e) => addColumn(e)}
+      >
+        Add columns
+      </button>
+    </>
   );
 }
 
