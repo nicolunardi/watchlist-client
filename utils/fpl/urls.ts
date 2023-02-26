@@ -24,3 +24,10 @@ export const API_URLS = {
   WATCHLIST: "watchlist/",
   ME: "me/",
 };
+
+const RESOURCES_BASE_URL = "https://resources.premierleague.com/premierleague/";
+export const RESOURCE_URLS = {
+  TEAM_BADGE_SMALL: RESOURCES_BASE_URL + "badges/50/t{}.png",
+  TEAM_BADGE_LARGE: RESOURCES_BASE_URL + "badges/100/t{}.png",
+  PLAYER_PHOTO: RESOURCES_BASE_URL + "photos/players/250x250/p{}.png",
+};
