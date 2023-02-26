@@ -117,28 +117,36 @@ function TopPlayersTable({ players }: Props) {
       {/* The pagination buttons */}
       <div className="flex items-center gap-2 mt-6 w-80 mx-auto">
         <button
-          className="border rounded p-1"
+          className={`border rounded p-1 ${
+            table.getCanPreviousPage() ? "hover:text-greenAccent-500" : ""
+          }`}
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
         >
           First
         </button>
         <button
-          className="border rounded p-1 w-9"
+          className={`border rounded p-1 w-9 ${
+            table.getCanPreviousPage() ? "hover:text-greenAccent-500" : ""
+          }`}
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           {"<"}
         </button>
         <button
-          className="border rounded p-1 w-9"
+          className={`border rounded p-1 w-9 ${
+            table.getCanNextPage() ? "hover:text-greenAccent-500" : ""
+          }`}
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
           {">"}
         </button>
         <button
-          className="border rounded p-1"
+          className={`border rounded p-1 ${
+            table.getCanNextPage() ? "hover:text-greenAccent-500" : ""
+          }`}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
         >
